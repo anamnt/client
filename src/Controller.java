@@ -3,10 +3,7 @@ import DTOobjects.Book;
 import DTOobjects.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import java.io.BufferedReader;
@@ -15,11 +12,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
-
-import java.io.*;
-import java.net.*;
-
 
 /**
  * Created by anamnt on 23/01/2017.
@@ -27,8 +19,8 @@ import java.net.*;
 public class Controller {
 
     Gson gson = new Gson();
-    private String cookie;
-
+    private String cookie; //cookie gemmes
+    private String usersPassword;
     public Controller(){
 
     }
@@ -84,7 +76,7 @@ public class Controller {
         in.close();
 
         User userFromServer = gson.fromJson(response.toString(),User.class);
-
+        usersPassword = password;
         for (int i = 0;; i++) {
             String headerName = con.getHeaderFieldKey(i);
             String headerValue = con.getHeaderField(i);
@@ -109,7 +101,7 @@ public class Controller {
         Scanner scanner = new Scanner(System.in);
         boolean stop = false;
         while (!stop){
-            System.out.println("\n Velkommen til menuen - hvad vil du?" +
+            System.out.println("\n Velkommen til menuen - tast dit valg" +
                     "\n1: Opdatere oplysninger" +
                     "\n2: Vis bøger til salg og lav en reservation" +
                     "\n3: Opret en annonce" +
@@ -321,6 +313,7 @@ public class Controller {
         con.setRequestProperty("Cookie", cookie);
 
         boolean stop = false;
+        boolean sendPassword = true;
         while (!stop){
             System.out.println("\n Hvad ønsker du at ændre ved brugeren?" +
                     "\n1: Brugernavn" +
@@ -349,6 +342,7 @@ public class Controller {
                         Scanner scanPassword = new Scanner(System.in);
                         String password = scanPassword.nextLine();
                         user.setPassword(password);
+                        sendPassword=false;
                         break;
 
                     case 3: System.out.println("Indtast værdi");
@@ -403,6 +397,9 @@ public class Controller {
             }
         }
 
+        if(sendPassword == true){
+            user.setPassword(usersPassword);
+        }
         String userString = gson.toJson(user);
 
         // Send post request
@@ -423,10 +420,6 @@ public class Controller {
         in.close();
 
         System.out.println(response.toString());
-
-    }
-
-    public void deleteUser() throws Exception{
 
     }
 
@@ -700,7 +693,6 @@ public class Controller {
         in.close();
 
         System.out.println(response.toString());
-
     }
 
     public void logout() throws Exception{
@@ -729,7 +721,4 @@ public class Controller {
         System.out.println(response.toString());
 
     }
-
-
-
 }

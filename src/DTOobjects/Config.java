@@ -1,7 +1,7 @@
 package DTOobjects;
 
 /**
- * Created by krist on 19-10-2016.
+ * Denne fil behøves ikke.
  */
 public class Config {
 
