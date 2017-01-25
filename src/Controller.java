@@ -15,6 +15,7 @@ import java.net.URL;
 
 /**
  * Created by anamnt on 23/01/2017.
+ * Dele af kode herfra: http://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
  */
 public class Controller {
 
@@ -93,7 +94,7 @@ public class Controller {
         if (userFromServer.getType() == 0){
             userMenu(userFromServer);
         }else{
-            adminMenu(userFromServer);
+            adminMenu();
         }
     }
 
@@ -180,42 +181,38 @@ public class Controller {
 
     }
 
-    public void adminMenu(User user){
+    public void adminMenu(){
         Scanner scanner = new Scanner(System.in);
         boolean stop = false;
         while (!stop){
             System.out.println("\n Velkommen til Adminmenuen - hvad vil du?" +
-                    "\n1: Opdatere oplysninger" +
-                    "\n2: Hent bøger" +
-                    "\n3: Slet bog" +
-                    "\n4: Opret bog" +
-                    "\n5: Opret bruger" +
-                    "\n6: Opret annonce" +
-                    "\n7: Log ud");
+                    "\n1: Hent bøger" +
+                    "\n2: Slet bog" +
+                    "\n3: Opret bog" +
+                    "\n4: Opret bruger" +
+                    "\n5: Opret annonce" +
+                    "\n6: Log ud");
             try{
                 int choice = scanner.nextInt();
 
                 switch (choice) {
 
-                    case 1: updateUser(user);
+                    case 1: showBooks();
                         break;
 
-                    case 2: showBooks();
+                    case 2: deleteBook();
                         break;
 
-                    case 3: deleteBook();
+                    case 3: createBook();
                         break;
 
-                    case 4: createBook();
+                    case 4: createUser();
                         break;
 
-                    case 5: createUser();
+                    case 5: createAd();
                         break;
 
-                    case 6: createAd();
-                        break;
-
-                    case 7: logout();
+                    case 6: logout();
                         stop = true;
                         break;
 
